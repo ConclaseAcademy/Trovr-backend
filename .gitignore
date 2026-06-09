@@ -1,0 +1,79 @@
+# Dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+
+# Build output
+dist/
+build/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+temp/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Next.js
+.next/
+
+# Nuxt.js
+.nuxt/
+
+# React
+build/
+
+# TypeScript
+*.tsbuildinfo
+
+# PM2
+.pm2/
+
+# Firebase
+.firebase/
+
+# Docker
+docker-compose.override.yml
+
+# Test output
+junit.xml
+
+# Sequelize
+sequelize-meta.json
+
+# Package lock files (optional)
+# package-lock.json
+# yarn.lock
