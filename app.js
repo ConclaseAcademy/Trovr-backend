@@ -5,10 +5,22 @@ app.use(express.json())
 const sequelize = require("./src/config/database");
 const seedAdmin = require("./src/seeders/admin-user");
 
+const swaggerUi =
+  require("swagger-ui-express");
+
+const swaggerSpec =
+  require("./src/config/swagger");
+
+  app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
+);
+
 async function start() {
   try {
     await sequelize.authenticate();
-
+    
     console.log("DB connected");
 
     await sequelize.sync({ force: false });
