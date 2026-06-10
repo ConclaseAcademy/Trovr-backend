@@ -4,6 +4,13 @@ const router =
 const authController =
   require("../controllers/auth.controller");
 
+const {
+  authLimiter,
+  forgotPasswordLimiter,
+  verificationLimiter,
+} = require(
+  "../middlewares/rateLimit.middleware"
+);
 
 const {
   registerValidator,
@@ -47,6 +54,7 @@ const {
  */
 router.post(
   "/register",
+  authLimiter,
   registerValidator,
   authController.register
 );
@@ -81,6 +89,7 @@ router.post(
  */
 router.post(
   "/login",
+  authLimiter,
   loginValidator,
   authController.login
 );
@@ -129,6 +138,7 @@ router.post(
  */
 router.post(
   "/forgot-password",
+  forgotPasswordLimiter,
   authController.forgotPassword
 );
 
@@ -228,6 +238,7 @@ router.post(
  */
 router.get(
   "/verify-email",
+  verificationLimiter,
   authController.verifyEmail
 );
 
