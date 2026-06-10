@@ -11,6 +11,13 @@ const swaggerUi =
 const swaggerSpec =
   require("./src/config/swagger");
 
+  const {
+  globalLimiter,
+} = require(
+  "./src/middlewares/rateLimit.middleware"
+);
+
+app.use(globalLimiter);
   app.use(
   "/api-docs",
   swaggerUi.serve,
