@@ -13,7 +13,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:4200",
       // Add frontend url
-      "http://104.211.22.120/",
+ 
       "http://localhost:5173",
     ],
 
