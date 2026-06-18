@@ -13,6 +13,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:4200",
       // Add frontend url
+ 
       "http://localhost:5173",
     ],
 
@@ -64,6 +65,13 @@ async function start() {
 start();
 const authRoutes = require("./src/routes/auth.route.js");
 const schoolRoutes = require("./src/routes/school.route.js")
+const listingRoutes =
+  require("./src/routes/listing.route");
+
+app.use(
+  "/api/listings",
+  listingRoutes
+);
 app.use(
   "/api/auth",
   authRoutes
@@ -72,9 +80,10 @@ app.use(
     "/api/school",
     schoolRoutes
 )
-const PORT = 5000
+
+const PORT = process.env.PORT || 5000
 app.listen(PORT,()=>{
-    console.log(`server running on http://localhost:${PORT}`)
+    console.log(`server running on PORT :${PORT}`)
 })
 
 
