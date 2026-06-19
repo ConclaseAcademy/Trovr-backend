@@ -9,17 +9,35 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:4200",
-      // Add frontend url
- 
-      "http://localhost:5173",
+    origin: "*",
+    methods: [
+      "GET",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS",
     ],
-
-    credentials: true,
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+    ],
   })
 );
+
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3000",
+//       "http://localhost:4200",
+//       // Add frontend url
+ 
+//       "http://localhost:5173",
+//     ],
+
+//     credentials: true,
+//   })
+// );
 
 const swaggerUi =
   require("swagger-ui-express");
