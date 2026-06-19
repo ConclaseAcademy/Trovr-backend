@@ -12,13 +12,14 @@ exports.createListing = async (
   data,
   imageUrls
 ) => {
+
   if (!imageUrls || imageUrls.length < 1) {
     throw new ApiError(
       400,
       "At least one image is required"
     );
   }
-
+console.log("image is valid")
   const listing = await Listing.create({
     title: data.title,
     category: data.category,
@@ -27,7 +28,7 @@ exports.createListing = async (
     sellerId: userId,
     status: LISTING_STATUS.LIVE,
   });
-
+// console.log("created listing")
   await ListingImage.bulkCreate(
     imageUrls.map((url, index) => ({
       listingId: listing.id,
@@ -35,7 +36,8 @@ exports.createListing = async (
       displayOrder: index + 1,
     }))
   );
-
+//   console.log(listing)
+console.log("listing successful")
   return listing;
 };
 

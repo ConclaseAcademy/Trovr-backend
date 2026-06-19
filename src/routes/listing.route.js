@@ -192,8 +192,20 @@ router.post(
   "/",
   authMiddleware,
 
-  upload.array("images", 5),
-
+//   upload.array("images", 5),
+(req, res, next) => {
+    console.log("uploading images")
+    upload.array("images", 5)(req, res, function (err) {
+      if (err) {
+        console.log("MULTER ERROR:", err);
+        return res.status(400).json({
+          message: err.message
+        });
+      }
+console.log("still uploading")
+      next();
+    });
+  },
   createListingValidator,
 
   validate,

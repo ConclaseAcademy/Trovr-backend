@@ -3,9 +3,18 @@ const asyncHandler = require("../utils/asyncHandler");
 
 exports.createListing = asyncHandler(
   async (req, res) => {
-    const imageUrls =
-      req.uploadedImages || [];
-
+    try {
+    //     const imageUrls =
+    //   req.uploadedImages || [];
+    //        const imageUrls = req.files.map(file => ({
+    //     imageUrl: `http://localhost:5000/uploads/${file.originalname}`,
+    //     publicId: file.originalname
+    //   }));
+    const backendBaseUrl = process.env.BACKEND_BASEURL
+    const imageUrls = req.files.map(file =>
+  `${backendBaseUrl}/uploads/${file.originalname}`
+);
+console.log("inside controller")
     const listing =
       await listingService.createListing(
         req.user.id,
@@ -19,6 +28,10 @@ exports.createListing = asyncHandler(
         "Your listing is live!",
       data: listing,
     });
+    } catch (error) {
+      console.error(error)  
+    }
+    
   }
 );
 
