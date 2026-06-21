@@ -9,6 +9,8 @@ const authMiddleware = require("../middlewares/auth.middleware");
 const listingOwner =
   require("../middlewares/listingOwner.middleware");
 
+const imageProcessor = require("../middlewares/imageProcessor.middleware")
+
 const upload =
   require("../middlewares/upload.middleware");
 
@@ -193,19 +195,27 @@ router.post(
   authMiddleware,
 
 //   upload.array("images", 5),
-(req, res, next) => {
-    console.log("uploading images")
-    upload.array("images", 5)(req, res, function (err) {
-      if (err) {
-        console.log("MULTER ERROR:", err);
-        return res.status(400).json({
-          message: err.message
-        });
-      }
-console.log("still uploading")
-      next();
-    });
-  },
+// (req, res, next) => {
+//     console.log("uploading images")
+//     upload.array("images", 5)(req, res, function (err) {
+//       if (err) {
+//         console.log("MULTER ERROR:", err);
+//         return res.status(400).json({
+//           message: err.message
+//         });
+//       }
+// console.log("still uploading")
+//       next();
+//     });
+//   },
+
+  upload.array(
+        "images",
+        5
+    ),
+
+    imageProcessor,
+
   createListingValidator,
 
   validate,

@@ -64,7 +64,10 @@ async function start() {
     
     console.log("DB connected");
 
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ 
+      // force: false
+      alter: true
+     });
 
     console.log("Tables created");
 

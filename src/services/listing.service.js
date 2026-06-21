@@ -29,11 +29,23 @@ console.log("image is valid")
     status: LISTING_STATUS.LIVE,
   });
 // console.log("created listing")
-  await ListingImage.bulkCreate(
-    imageUrls.map((url, index) => ({
-      listingId: listing.id,
-      imageUrl: url,
-      displayOrder: index + 1,
+//   await ListingImage.bulkCreate(
+//     imageUrls.map((url, index) => ({
+//       listingId: listing.id,
+//       imageUrl: url,
+//       displayOrder: index + 1,
+//     }))
+//   );
+   console.log(imageUrls)
+ await ListingImage.bulkCreate(
+    imageUrls.map((image, index) => ({
+        listingId: listing.id,
+
+        imageUrl: image.url,
+
+        publicId: image.publicId,
+
+        displayOrder: index + 1
     }))
   );
 //   console.log(listing)

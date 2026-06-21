@@ -11,15 +11,16 @@ exports.createListing = asyncHandler(
     //     publicId: file.originalname
     //   }));
     const backendBaseUrl = process.env.BACKEND_BASEURL
-    const imageUrls = req.files.map(file =>
-  `${backendBaseUrl}/uploads/${file.originalname}`
-);
+//     const imageUrls = req.files.map(file =>
+//   `${backendBaseUrl}/uploads/${file.originalname}`
+// );
 console.log("inside controller")
     const listing =
       await listingService.createListing(
         req.user.id,
         req.body,
-        imageUrls
+        req.images
+        // imageUrls
       );
 
     return res.status(201).json({

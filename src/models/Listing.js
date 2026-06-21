@@ -76,6 +76,7 @@ const Listing = sequelize.define(
     },
   },
   {
+
     indexes: [
       {
         fields: ["category"],

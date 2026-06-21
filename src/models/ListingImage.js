@@ -15,6 +15,11 @@ const ListingImage = sequelize.define(
       allowNull: false,
     },
 
+    publicId: {
+    type: DataTypes.STRING,
+    allowNull: true
+},
+
     displayOrder: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
