@@ -10,6 +10,8 @@ const RefreshToken =
   require("./RefreshToken");
 const Listing = require("./Listing");
 const ListingImage = require("./ListingImage");
+const Conversation = require("./Conversation")
+const Message = require("./Message")
 
 School.hasMany(User);
 
@@ -54,6 +56,31 @@ ListingImage.belongsTo(Listing, {
   as: "listing",
 });
 
+Conversation.belongsTo(Listing, {
+  foreignKey: "listingId",
+});
+
+Conversation.belongsTo(User, {
+  as: "buyer",
+  foreignKey: "buyerId",
+});
+
+Conversation.belongsTo(User, {
+  as: "seller",
+  foreignKey: "sellerId",
+});
+
+Conversation.hasMany(Message, {
+  foreignKey: "conversationId",
+});
+
+Message.belongsTo(Conversation);
+Message.belongsTo(User, {
+  as: "sender",
+  foreignKey: "senderId",
+});
+
+
 // sequelize.sync({ force: true }).then(() => {
 //   console.log("Database & tables created!");
 // });
@@ -63,4 +90,7 @@ module.exports = {
   RefreshToken,
   Listing,
   ListingImage,
+  Conversation,
+  Message
+
 };
