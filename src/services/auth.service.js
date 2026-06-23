@@ -41,23 +41,23 @@ exports.register = async (
     );
   }
 
-  // const domain =
-  //   email.split("@")[1];
+  const domain =
+    email.split("@")[1];
 
-  // const school =
-  //   await School.findOne({
-  //     where: {
-  //       domain,
-  //       isActive: true,
-  //     },
-  //   });
+  const school =
+    await School.findOne({
+      where: {
+        domain,
+        isActive: true,
+      },
+    });
 
-  // if (!school) {
-  //   throw new ApiError(
-  //     400,
-  //     "Invalid school email domain"
-  //   );
-  // }
+  if (!school) {
+    throw new ApiError(
+      400,
+      "Invalid school email domain"
+    );
+  }
 
   const hashedPassword =
     await bcrypt.hash(
