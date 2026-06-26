@@ -89,6 +89,8 @@ const schoolRoutes = require("./src/routes/school.route.js")
 const listingRoutes =
   require("./src/routes/listing.route");
 
+const conversationRoutes = require("./src/routes/conversation.route.js")
+
 app.use(
   "/api/listings",
   listingRoutes
@@ -100,6 +102,10 @@ app.use(
 app.use(
     "/api/school",
     schoolRoutes
+);
+app.use(
+  "/api/conversations",
+  conversationRoutes
 )
 
 const errorMiddleware =

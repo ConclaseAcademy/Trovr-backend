@@ -1,6 +1,8 @@
 const Listing = require("../models/Listing");
 const Conversation = require("../models/Conversation")
 const Message = require("../models/Message")
+const { Op } = require("sequelize");
+const User = require("../models/User");
 exports.startConversation =
 async (
   buyerId,
@@ -168,6 +170,30 @@ async (
     offset:
       (page - 1) *
       limit,
+  });
+};
+
+exports.getMessages = async (
+  conversationId,
+  page = 1,
+  limit = 20
+) => {
+
+  page = Number(page);
+  limit = Number(limit);
+
+  return await Message.findAndCountAll({
+    where: {
+      conversationId,
+    },
+
+    order: [
+      ["createdAt", "ASC"],
+    ],
+
+    limit,
+
+    offset: (page - 1) * limit,
   });
 };
 
