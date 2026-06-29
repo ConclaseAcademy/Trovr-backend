@@ -128,45 +128,71 @@ router.get(
  * @swagger
  * /listings:
  *   post:
- *     summary: Create listing
+ *     summary: Create a new listing
+ *     description: Creates a marketplace listing for the authenticated user.
  *     tags:
  *       - Listings
- *
  *     security:
  *       - bearerAuth: []
- *
  *     requestBody:
  *       required: true
  *       content:
  *         multipart/form-data:
  *           schema:
  *             type: object
- *
  *             required:
  *               - title
  *               - category
  *               - price
  *               - description
  *               - images
- *
  *             properties:
  *               title:
  *                 type: string
- *
+ *                 example: HP EliteBook 840
  *               category:
  *                 type: string
- *
+ *                 enum:
+ *                   - BOOKS
+ *                   - ELECTRONICS
+ *                   - FURNITURE
+ *                   - CLOTHING
+ *                   - OTHER
  *               price:
  *                 type: number
- *
+ *                 example: 120000
  *               description:
  *                 type: string
- *
+ *                 example: Very clean laptop with charger.
  *               images:
  *                 type: array
+ *                 minItems: 1
+ *                 maxItems: 5
  *                 items:
  *                   type: string
  *                   format: binary
+ *     responses:
+ *       201:
+ *         description: Listing created successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Listing created successfully
+ *                 data:
+ *                   type: object
+ *       400:
+ *         description: Validation error.
+ *       401:
+ *         description: Authentication required.
+ *       500:
+ *         description: Internal server error.
  */
 router.post(
   "/",
