@@ -122,29 +122,7 @@ router.get(
   validate,
   listingController.browseListings
 );
-/**
- * @swagger
- * /listings/{listingId}:
- *   get:
- *     summary: Get listing details
- *     tags:
- *       - Listings
- *
- *     parameters:
- *       - in: path
- *         name: listingId
- *         required: true
- *         schema:
- *           type: string
- *
- *     responses:
- *       200:
- *         description: Listing retrieved successfully
- */
-router.get(
-  "/:listingId",
-  listingController.getListingById
-);
+
 
 /**
  * @swagger
@@ -223,6 +201,90 @@ router.post(
   listingController.createListing
 );
 
+
+/**
+ * @swagger
+ * /listings/my:
+ *   get:
+ *     summary: Get my listings
+ *     description: Returns all listings created by the authenticated user.
+ *     tags:
+ *       - Listings
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved listings
+ *       401:
+ *         description: Unauthorized
+ */
+router.get(
+  "/my",
+  authMiddleware,
+  listingController.getMyListings
+);
+
+
+/**
+ * @swagger
+ * /listings/{listingId}/sold:
+ *   patch:
+ *     summary: Mark listing as sold
+ *     tags:
+ *       - Listings
+ */
+router.patch(
+  "/:listingId/sold",
+
+  authMiddleware,
+
+  listingOwner,
+
+  listingController.markAsSold
+);
+
+/**
+ * @swagger
+ * /listings/{listingId}/relist:
+ *   patch:
+ *     summary: Relist a sold item
+ *     tags:
+ *       - Listings
+ */
+router.patch(
+  "/:listingId/relist",
+
+  authMiddleware,
+
+  listingOwner,
+
+  listingController.relistListing
+);
+
+/**
+ * @swagger
+ * /listings/{listingId}:
+ *   get:
+ *     summary: Get listing details
+ *     tags:
+ *       - Listings
+ *
+ *     parameters:
+ *       - in: path
+ *         name: listingId
+ *         required: true
+ *         schema:
+ *           type: string
+ *
+ *     responses:
+ *       200:
+ *         description: Listing retrieved successfully
+ */
+router.get(
+  "/:listingId",
+  listingController.getListingById
+);
+
 /**
  * @swagger
  * /listings/{listingId}:
@@ -246,23 +308,6 @@ router.patch(
   validate,
 
   listingController.updateListing
-);
-
-/**
- * @swagger
- * /listings/my:
- *   get:
- *     summary: Get my listings
- *     tags:
- *       - Listings
- *
- *     security:
- *       - bearerAuth: []
- */
-router.get(
-  "/my",
-  authMiddleware,
-  listingController.getMyListings
 );
 
 /**
@@ -302,44 +347,5 @@ router.delete(
 
   listingController.deleteImage
 );
-
-/**
- * @swagger
- * /listings/{listingId}/sold:
- *   patch:
- *     summary: Mark listing as sold
- *     tags:
- *       - Listings
- */
-router.patch(
-  "/:listingId/sold",
-
-  authMiddleware,
-
-  listingOwner,
-
-  listingController.markAsSold
-);
-
-/**
- * @swagger
- * /listings/{listingId}/relist:
- *   patch:
- *     summary: Relist a sold item
- *     tags:
- *       - Listings
- */
-router.patch(
-  "/:listingId/relist",
-
-  authMiddleware,
-
-  listingOwner,
-
-  listingController.relistListing
-);
-
-
-
 
 module.exports = router;
