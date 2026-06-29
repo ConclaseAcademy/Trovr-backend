@@ -75,6 +75,7 @@ exports.getListingById =
 exports.getMyListings =
   asyncHandler(
     async (req, res) => {
+      console.log(`user id is: ${req.user.id}`)
       const listings =
         await listingService.getMyListings(
           req.user.id
