@@ -135,6 +135,16 @@ async (
         model: User,
         as: "buyer",
       },
+      {
+        model: User,
+        as: "seller",
+        attributes: [
+          "id",
+          "fullName",
+          "profilePhoto",
+          "isVerified",
+        ],
+      },
     ],
 
     order: [

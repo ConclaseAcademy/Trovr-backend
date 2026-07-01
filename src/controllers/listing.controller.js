@@ -193,3 +193,19 @@ exports.deleteImage =
       });
     }
   );
+
+  exports.deleteListing =
+asyncHandler(async (req, res) => {
+
+    await listingService.deleteListing(
+        req.params.id,
+        req.user.id
+    );
+
+    res.status(200).json({
+        success: true,
+        message:
+            "Listing deleted successfully."
+    });
+
+});
