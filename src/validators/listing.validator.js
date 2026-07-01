@@ -43,6 +43,24 @@ const createListingValidator = [
     .withMessage(
       "Description cannot exceed 500 characters"
     ),
+    body("locationName")
+    .optional()
+    // .withMessage("Location is required")
+    .isLength({ max: 150 }),
+
+body("latitude")
+    .optional()
+    .isFloat({
+        min: -90,
+        max: 90
+    }),
+
+body("longitude")
+    .optional()
+    .isFloat({
+        min: -180,
+        max: 180
+    }),
 ];
 
 const updateListingValidator = [

@@ -164,6 +164,17 @@ router.get(
  *               description:
  *                 type: string
  *                 example: Very clean laptop with charger.
+ *               locationName:
+ *                 type: string
+ *                 example: University of Lagos Main Gate
+
+ *               latitude:
+ *                 type: number
+ *                 example: 6.5158
+
+ *               longitude:
+ *                 type: number
+ *                 example: 3.3896
  *               images:
  *                 type: array
  *                 minItems: 1
@@ -372,6 +383,39 @@ router.delete(
   listingOwner,
 
   listingController.deleteImage
+);
+
+/**
+ * @swagger
+ * /listings/{id}:
+ *   delete:
+ *     summary: Delete a listing
+ *     description: Deletes one of the authenticated user's listings along with its images and related conversations.
+ *     tags:
+ *       - Listings
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       200:
+ *         description: Listing deleted successfully.
+ *       401:
+ *         description: Unauthorized.
+ *       403:
+ *         description: You do not own this listing.
+ *       404:
+ *         description: Listing not found.
+ */
+router.delete(
+    "/:id",
+    authMiddleware,
+    listingController.deleteListing
 );
 
 module.exports = router;

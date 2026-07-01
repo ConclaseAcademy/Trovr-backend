@@ -1,8 +1,12 @@
 const { Op } = require("sequelize");
+const sequelize = require("../config/database");
 
 const Listing = require("../models/Listing");
 const ListingImage = require("../models/ListingImage");
 const User = require("../models/User");
+
+const Conversation = require("../models/Conversation.js");
+const Message = require("../models/Message.js");
 
 const ApiError = require("../utils/ApiError");
 const LISTING_STATUS = require("../constants/listingStatus");
@@ -20,14 +24,27 @@ exports.createListing = async (
     );
   }
 console.log("image is valid")
+  // const listing = await Listing.create({
+  //   title: data.title,
+  //   category: data.category,
+  //   price: data.price,
+  //   description: data.description,
+  //   sellerId: userId,
+  //   status: LISTING_STATUS.LIVE,
+  // });
   const listing = await Listing.create({
-    title: data.title,
-    category: data.category,
-    price: data.price,
-    description: data.description,
-    sellerId: userId,
-    status: LISTING_STATUS.LIVE,
-  });
+  title: data.title,
+  category: data.category,
+  price: data.price,
+  description: data.description,
+
+  locationName: data.locationName,
+  latitude: data.latitude,
+  longitude: data.longitude,
+
+  sellerId: userId,
+  status: LISTING_STATUS.LIVE,
+});
 // console.log("created listing")
 //   await ListingImage.bulkCreate(
 //     imageUrls.map((url, index) => ({
@@ -57,7 +74,25 @@ exports.updateListing = async (
   listing,
   payload
 ) => {
+  // await listing.update({
+  //   title:
+  //     payload.title ??
+  //     listing.title,
+
+  //   category:
+  //     payload.category ??
+  //     listing.category,
+
+  //   price:
+  //     payload.price ??
+  //     listing.price,
+
+  //   description:
+  //     payload.description ??
+  //     listing.description,
+  // });
   await listing.update({
+
     title:
       payload.title ??
       listing.title,
@@ -73,7 +108,20 @@ exports.updateListing = async (
     description:
       payload.description ??
       listing.description,
-  });
+
+    locationName:
+      payload.locationName ??
+      listing.locationName,
+
+    latitude:
+      payload.latitude ??
+      listing.latitude,
+
+    longitude:
+      payload.longitude ??
+      listing.longitude,
+
+});
 
   return listing;
 };
@@ -364,3 +412,118 @@ exports.deleteImage =
       );
     }
   };
+
+  exports.deleteListing = async (
+    listingId,
+    userId
+) => {
+
+    const transaction =
+        await sequelize.transaction();
+
+    try {
+
+        const listing =
+            await Listing.findByPk(
+                listingId,
+                {
+                    include: [
+                        {
+                            model: ListingImage,
+                            as: "images"
+                        }
+                    ],
+                    transaction
+                }
+            );
+
+        if (!listing) {
+            throw new ApiError(
+                404,
+                "Listing not found"
+            );
+        }
+
+        if (listing.sellerId !== userId) {
+            throw new ApiError(
+                403,
+                "You can only delete your own listings."
+            );
+        }
+
+        /*
+        Delete physical images
+        */
+
+        // for (const image of listing.images) {
+
+        //     await imageStorage.deleteImage(
+        //         image.publicId,
+        //         image.imageUrl
+        //     );
+
+        // }
+
+        /*
+        Delete image records
+        */
+
+        await ListingImage.destroy({
+            where: {
+                listingId
+            },
+            transaction
+        });
+
+        /*
+        Delete conversations + messages
+        */
+
+        const conversations =
+            await Conversation.findAll({
+                where: {
+                    listingId
+                },
+                transaction
+            });
+
+        for (const conversation of conversations) {
+
+            await Message.destroy({
+                where: {
+                    conversationId:
+                        conversation.id
+                },
+                transaction
+            });
+
+        }
+
+        await Conversation.destroy({
+            where: {
+                listingId
+            },
+            transaction
+        });
+
+        /*
+        Delete listing
+        */
+
+        await listing.destroy({
+            transaction
+        });
+
+        await transaction.commit();
+
+        return;
+
+    } catch (error) {
+
+        await transaction.rollback();
+
+        throw error;
+
+    }
+
+};
