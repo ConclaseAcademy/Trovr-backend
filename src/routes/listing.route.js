@@ -266,9 +266,32 @@ router.get(
  * @swagger
  * /listings/{listingId}/sold:
  *   patch:
- *     summary: Mark listing as sold
+ *     summary: Mark a listing as sold
+ *     description: Marks one of the authenticated user's listings as sold.
  *     tags:
  *       - Listings
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: listingId
+ *         required: true
+ *         description: The UUID of the listing to mark as sold.
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *           example: 550e8400-e29b-41d4-a716-446655440000
+ *     responses:
+ *       200:
+ *         description: Listing marked as sold successfully.
+ *       400:
+ *         description: Invalid listing ID.
+ *       401:
+ *         description: Unauthorized.
+ *       403:
+ *         description: You are not the owner of this listing.
+ *       404:
+ *         description: Listing not found.
  */
 router.patch(
   "/:listingId/sold",
