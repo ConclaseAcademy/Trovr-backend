@@ -193,6 +193,18 @@ exports.getMyListings =
             ListingImage,
           as: "images",
         },
+        {
+          model: User,
+          as: "seller",
+          attributes: [
+            "id",
+            "fullName",
+            "profilePhoto",
+            "isVerified",
+            "itemsSoldCount",
+            "createdAt",
+          ],
+        },
       ],
 
       order: [
@@ -273,6 +285,18 @@ exports.browseListings =
               model:
                 ListingImage,
               as: "images",
+            },
+            {
+              model: User,
+              as: "seller",
+              attributes: [
+                "id",
+                "fullName",
+                "profilePhoto",
+                "isVerified",
+                "itemsSoldCount",
+                "createdAt",
+              ],
             },
           ],
 
