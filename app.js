@@ -9,16 +9,35 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:4200",
-      // Add frontend url
-      "http://localhost:5173",
+    origin: "*",
+    methods: [
+      "GET",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS",
     ],
-
-    credentials: true,
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+    ],
   })
 );
+
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3000",
+//       "http://localhost:4200",
+//       // Add frontend url
+ 
+//       "http://localhost:5173",
+//     ],
+
+//     credentials: true,
+//   })
+// );
 
 const swaggerUi =
   require("swagger-ui-express");
@@ -45,7 +64,10 @@ async function start() {
     
     console.log("DB connected");
 
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ 
+      // force: false
+      alter: true
+     });
 
     console.log("Tables created");
 
@@ -64,6 +86,15 @@ async function start() {
 start();
 const authRoutes = require("./src/routes/auth.route.js");
 const schoolRoutes = require("./src/routes/school.route.js")
+const listingRoutes =
+  require("./src/routes/listing.route");
+
+const conversationRoutes = require("./src/routes/conversation.route.js")
+
+app.use(
+  "/api/listings",
+  listingRoutes
+);
 app.use(
   "/api/auth",
   authRoutes
@@ -71,10 +102,22 @@ app.use(
 app.use(
     "/api/school",
     schoolRoutes
+);
+app.use(
+  "/api/conversations",
+  conversationRoutes
 )
-const PORT = 5000
+
+const errorMiddleware =
+  require(
+    "./src/middlewares/error.middleware"
+  );
+
+app.use(errorMiddleware);
+
+const PORT = process.env.PORT || 5000
 app.listen(PORT,()=>{
-    console.log(`server running on http://localhost:${PORT}`)
+    console.log(`server running on PORT :${PORT}`)
 })
 
 

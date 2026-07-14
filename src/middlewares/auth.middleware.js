@@ -19,13 +19,13 @@ module.exports = (
       )
     );
   }
-
+// console.log(authHeader)
   const token =
     authHeader.replace(
       "Bearer ",
       ""
     );
-
+// console.log(token)
   try {
     const decoded =
       jwt.verify(
@@ -34,7 +34,7 @@ module.exports = (
       );
 
     req.user = decoded;
-
+console.log("token decoded")
     next();
   } catch (error) {
     next(
