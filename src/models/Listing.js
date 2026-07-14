@@ -30,11 +30,11 @@ const Listing = sequelize.define(
 
     category: {
       type: DataTypes.ENUM(
-        LISTING_CATEGORIES.BOOKS,
+        LISTING_CATEGORIES.EDUCATION,
         LISTING_CATEGORIES.ELECTRONICS,
         LISTING_CATEGORIES.FURNITURE,
-        LISTING_CATEGORIES.CLOTHING,
-        LISTING_CATEGORIES.OTHER
+        LISTING_CATEGORIES.FASHION,
+        LISTING_CATEGORIES.SPORTS
       ),
       allowNull: false,
     },
