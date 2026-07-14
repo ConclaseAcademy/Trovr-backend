@@ -38,7 +38,7 @@ exports.register =
           const {
             sendVerificationEmail,
           } = require(
-            "./services/email/verification-email.service"
+            "../services/email/verification-email.service"
           );
 
           await sendVerificationEmail(
