@@ -34,7 +34,7 @@ const Listing = sequelize.define(
         LISTING_CATEGORIES.ELECTRONICS,
         LISTING_CATEGORIES.FURNITURE,
         LISTING_CATEGORIES.FASHION,
-        LISTING_CATEGORIES.SPORTS
+        LISTING_CATEGORIES.SPORT
       ),
       allowNull: false,
     },
